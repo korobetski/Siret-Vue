@@ -1,10 +1,10 @@
 <script lang="ts">
 import type { PropType } from 'vue'
 
-import type Entreprise from './types/Entreprise'
-import type ResponseData from './types/ResponseData'
-import EntrepriseItem from './components/EntrepriseItem.vue'
-import EntrepriseService from './services/EntrepriseService'
+import type Entreprise from '@/types/Entreprise'
+import type ResponseData from '@/types/ResponseData'
+import EntrepriseItem from '@/components/EntrepriseItem.vue'
+import EntrepriseService from '@/services/EntrepriseService'
 
 export default {
   components: {
@@ -41,11 +41,13 @@ export default {
 </script>
 
 <template>
-  <div id="nav">
-    <router-link to="/">Liste</router-link> |
-    <router-link to="/ajout">Ajout</router-link>
-  </div>
-  <router-view></router-view>
+  <header>
+    <h1>Entreprises</h1>
+  </header>
+
+  <main>
+    <EntrepriseItem v-for="entreprise in entreprises" v-bind="entreprise"></EntrepriseItem>
+  </main>
 </template>
 
 <style scoped>
