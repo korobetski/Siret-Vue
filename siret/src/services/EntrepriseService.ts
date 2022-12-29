@@ -9,6 +9,10 @@ class EntrepriseService {
     return http.get(`/entreprises/${siret}`);
   }
 
+  getInsee(siret: any): Promise<any> {
+    return http.get(`/insee/${siret}`);
+  }
+
   create(data: any): Promise<any> {
     return http.post("/entreprises", data);
   }

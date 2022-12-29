@@ -8,7 +8,7 @@ import './assets/main.css'
 
 const routes = [
     { path: '/', component: Liste },
-    { path: '/new', component: Ajout },
+    { path: '/ajout', component: Ajout },
 ]
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(),
