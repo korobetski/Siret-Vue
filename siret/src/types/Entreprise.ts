@@ -14,14 +14,14 @@ export default interface Entreprise {
 
 export const EmptyEntreprise: Entreprise = {
     id:0,
-    siret:0,
-    siren:0,
-    tva:'',
+    siret:12345678999999,
+    siren:123456789,
+    tva:'FR00123456789',
     nom:'',
     numeroVoie:undefined,
     typeVoie:undefined,
     libelleVoie:'',
-    codePostal:0,
+    codePostal:21000,
     libelleCommune:'',
     dateCreation: new Date(),
 }

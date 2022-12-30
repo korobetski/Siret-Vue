@@ -41,10 +41,22 @@ export default {
 </script>
 
 <template>
-  <div id="nav">
-    <router-link to="/">Liste</router-link> |
-    <router-link to="/ajout">Ajout</router-link>
-  </div>
+  <header>
+    <h1>Base de données entreprises</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Liste</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/ajout">Ajout</router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
   <router-view></router-view>
 </template>
 

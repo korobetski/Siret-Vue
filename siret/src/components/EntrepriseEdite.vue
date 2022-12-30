@@ -54,6 +54,8 @@ export default {
       EntrepriseService.update(this.entreprise.id, this.entreprise)
         .then((response: ResponseData) => {
           console.log(response.data.datas);
+          
+          this.$router.push('/'+this.entreprise.id);
         })
         .catch((e: Error) => {
           console.log(e);
@@ -68,40 +70,62 @@ export default {
 </script>
 
 <template>
-  <header>
-    <h1>Editer une entreprise</h1>
-  </header>
-
   <main>
+    <h2>Editer une entreprise</h2>
     <form>
-      <label for="id">Id</label>
-      <input id="id" v-model.number="entreprise.id" disabled="true"/>
-      <label for="siret">N° SIRET</label>
-      <input id="siret" v-model.number="entreprise.siret" @keypress="validateNumber($event)"/>
-      <button @click="insee">Charger les informations depuis l'INSEE</button>
+      <input id="id" type="number" hidden class="form-control form-control-sm" v-model.number="entreprise.id" readonly/>
+      <div class="form-floating mb-3">        
+        <input id="siret" class="form-control" aria-describedby="siretHelp" v-model.number="entreprise.siret" @keypress="validateNumber($event)"/>
+        <label for="siret" class="form-label">N° SIRET</label>
+        <div id="siretHelp" class="form-text">Le n° SIRET est un numéro à 14 chiffres.</div>
+      </div>
+      <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
+
       <hr/>
-      <label for="siren">N° SIREN</label>
-      <input id="siren" v-model.number="entreprise.siren"/>
-      <label for="tva">N° TVA</label>
-      <input id="tva" v-model.number="entreprise.tva"/>
-      <label for="nom">Nom</label>
-      <input id="nom" v-model.number="entreprise.nom"/>
-      
-      <label for="numeroVoie">N° de voie</label>
-      <input id="numeroVoie" v-model.number="entreprise.numeroVoie"/>
-      <label for="typeVoie">Type de voie</label>
-      <input id="typeVoie" v-model.number="entreprise.typeVoie"/>
-      <label for="libelleVoie">Libellé de voie</label>
-      <input id="libelleVoie" v-model.number="entreprise.libelleVoie"/>
-      <label for="codePostal">Code postal</label>
-      <input id="codePostal" v-model.number="entreprise.codePostal"/>
-      <label for="libelleCommune">Commune</label>
-      <input id="libelleCommune" v-model.number="entreprise.libelleCommune"/>
+      <div class="form-floating mb-3">
+        <input id="siren" class="form-control form-control-sm" v-model.number="entreprise.siren"/>
+        <label for="siren" class="form-label">N° SIREN</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input id="tva" class="form-control form-control-sm" v-model="entreprise.tva"/>
+        <label for="tva" class="form-label">N° TVA</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input id="nom" class="form-control form-control-sm" v-model="entreprise.nom"/>
+        <label for="nom" class="form-label">Nom</label>
+      </div>
 
-      <label for="dateCreation">Date de création</label>
-      <input id="dateCreation" v-model.number="entreprise.dateCreation"/>
+      <div class="mb-3">        
+        <label class="form-label">Adresse</label>
+      </div>
+      <div class="input-group mb-3">
+        <div class="form-floating mb-3">
+          <input type="number" id="numeroVoie" class="form-control form-control-sm" placeholder="N° de voie" aria-label="N° de voie" v-model.number="entreprise.numeroVoie"/>
+          <label for="numeroVoie" class="form-label">N° de voie</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" id="typeVoie" class="form-control form-control-sm" placeholder="Type de voie" aria-label="Type de voie" v-model="entreprise.typeVoie"/>
+          <label for="typeVoie" class="form-label">Type de voie</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" id="libelleVoie" class="form-control form-control-sm" placeholder="Libellé de voie" aria-label="Libellé de voie" v-model="entreprise.libelleVoie"/>
+          <label for="libelleVoie" class="form-label">Libellé de voie</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="number" id="codePostal" class="form-control form-control-sm" placeholder="Code postal" aria-label="Code postal" v-model.number="entreprise.codePostal"/>
+          <label for="codePostal" class="form-label">Code postal</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" id="libelleCommune" class="form-control form-control-sm" placeholder="Commune" aria-label="Commune" v-model="entreprise.libelleCommune"/>
+          <label for="libelleCommune" class="form-label">Commune</label>
+        </div>
+      </div>
+      <div class="form-floating mb-3">        
+        <input id="dateCreation" class="form-control form-control-sm" v-model="entreprise.dateCreation"/>
+        <label for="dateCreation" class="form-label">Date de création</label>
+      </div>
 
-      <button @click="update">Mettre à jour la base de données</button>
+      <button class="btn btn-primary" @click="update">Mettre à jour la base de données</button>
 
     </form>
   </main>

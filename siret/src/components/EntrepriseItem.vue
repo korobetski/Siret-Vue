@@ -36,23 +36,29 @@ export default defineComponent({
 
 
 <template>
-  <div :id="'entreprise-'+id" class="entreprise-item">
-    <div class="details">
-      <h3>{{ nom }}</h3>
-      <div>N° SIRET : {{ siret }}</div>
-      <div>N° SIREN : {{ siren }}</div>
-      <div>N° TVA : {{ tva }}</div>
-      <div>Adresse : {{ numeroVoie }} {{ typeVoie }} {{ libelleVoie }} {{ codePostal }} {{ libelleCommune }}</div>
-      <div>Date de création : {{ dateCreation }}</div>
-      <div class="controles">
-        <router-link :to="'/'+id">Consulter</router-link>
-        <router-link :to="'/edite/'+id">Editer</router-link>
-        <button @click="supprimer(id)">Supprimer</button>
+  <div :id="'entreprise-'+id" class="card">
+    <div class="card-header">
+      <h3 class="card-title">{{ nom }}</h3>
+    </div>
+    <div class="card-body">
+      <div class="card-text">
+        <div>N° SIRET : {{ siret }}</div>
+        <div>N° SIREN : {{ siren }}</div>
+        <div>N° TVA : {{ tva }}</div>
+        <div>Adresse : {{ numeroVoie }} {{ typeVoie }} {{ libelleVoie }} {{ codePostal }} {{ libelleCommune }}</div>
+        <div>Date de création : {{ dateCreation }}</div>
+      </div>
+      <div class="btn-group" role="group" aria-label="controles">
+        <router-link class="btn btn-secondary" :to="'/'+id">Consulter</router-link>
+        <router-link class="btn btn-secondary" :to="'/edite/'+id">Editer</router-link>
+        <button class="btn btn-secondary" @click="supprimer(id)">Supprimer</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+.card {
+  color: black;
+}
 </style>

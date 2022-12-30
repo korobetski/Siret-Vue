@@ -46,7 +46,12 @@ export default {
   </header>
 
   <main>
-    <EntrepriseItem v-for="entreprise in entreprises" v-bind="entreprise"></EntrepriseItem>
+    <div class="container">
+      <div class="row align-items-start">
+        <EntrepriseItem class="col" v-for="entreprise in entreprises" v-bind="entreprise"></EntrepriseItem>
+      </div>
+    </div>
+    
   </main>
 </template>
 
