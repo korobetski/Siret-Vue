@@ -11,10 +11,19 @@ export default {
   },
   data() {
     return {
-      entreprise: EmptyEntreprise
+      entreprise: EmptyEntreprise,
     }
   },
   methods: {
+    getEntreprise() {
+      EntrepriseService.get(this.$route.params.id)
+        .then((response: ResponseData) => {
+          this.entreprise = response.data.datas;
+        })
+        .catch((e: Error) => {
+          console.log(e);
+        });
+    },
     validateNumber: (event: { keyCode: any; preventDefault: () => void }) => {
       let keyCode = event.keyCode;
       if (keyCode < 48 || keyCode > 57) {
@@ -41,8 +50,8 @@ export default {
           console.log(e);
         });
     },
-    insert() {
-      EntrepriseService.create(this.entreprise)
+    update() {
+      EntrepriseService.update(this.entreprise.id, this.entreprise)
         .then((response: ResponseData) => {
           console.log(response.data.datas);
         })
@@ -50,18 +59,23 @@ export default {
           console.log(e);
         });
     }
-  }
+  },
+  mounted() {
+    this.getEntreprise();
+  },
 }
 
 </script>
 
 <template>
   <header>
-    <h1>Ajouter une nouvelle entreprise</h1>
+    <h1>Editer une entreprise</h1>
   </header>
 
   <main>
     <form>
+      <label for="id">Id</label>
+      <input id="id" v-model.number="entreprise.id" disabled="true"/>
       <label for="siret">N° SIRET</label>
       <input id="siret" v-model.number="entreprise.siret" @keypress="validateNumber($event)"/>
       <button @click="insee">Charger les informations depuis l'INSEE</button>
@@ -87,7 +101,7 @@ export default {
       <label for="dateCreation">Date de création</label>
       <input id="dateCreation" v-model.number="entreprise.dateCreation"/>
 
-      <button @click="insert">Ajouter à la base de données</button>
+      <button @click="update">Mettre à jour la base de données</button>
 
     </form>
   </main>

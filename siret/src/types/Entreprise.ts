@@ -11,3 +11,17 @@ export default interface Entreprise {
     libelleCommune:string
     dateCreation:Date
 }
+
+export const EmptyEntreprise: Entreprise = {
+    id:0,
+    siret:0,
+    siren:0,
+    tva:'',
+    nom:'',
+    numeroVoie:undefined,
+    typeVoie:undefined,
+    libelleVoie:'',
+    codePostal:0,
+    libelleCommune:'',
+    dateCreation: new Date(),
+}

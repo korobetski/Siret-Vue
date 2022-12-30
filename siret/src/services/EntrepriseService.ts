@@ -5,8 +5,8 @@ class EntrepriseService {
     return http.get("/entreprises");
   }
 
-  get(siret: any): Promise<any> {
-    return http.get(`/entreprises/${siret}`);
+  get(id: any): Promise<any> {
+    return http.get(`/entreprises/${id}`);
   }
 
   getInsee(siret: any): Promise<any> {
@@ -17,12 +17,12 @@ class EntrepriseService {
     return http.post("/entreprises", data);
   }
 
-  update(siret: any, data: any): Promise<any> {
-    return http.put(`/entreprises/${siret}`, data);
+  update(id: any, data: any): Promise<any> {
+    return http.put(`/entreprises/${id}`, data);
   }
 
-  delete(siret: any): Promise<any> {
-    return http.delete(`/entreprises/${siret}`);
+  delete(id: any): Promise<any> {
+    return http.delete(`/entreprises/${id}`);
   }
 }
 
