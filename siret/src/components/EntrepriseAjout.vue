@@ -13,7 +13,9 @@ export default {
     return {
       entreprise: EmptyEntreprise,
       inseeAlertVisible: false,
-      inseeErrorMessage: ""
+      inseeErrorMessage: "",
+      createAlertVisible: false,
+      createErrorMessage: ""
     }
   },
   methods: {
@@ -49,6 +51,7 @@ export default {
         });
     },
     insert() {
+      this.createAlertVisible = false;
       EntrepriseService.create(this.entreprise)
         .then((response: ResponseData) => {
           console.log(response.data.datas);
@@ -56,6 +59,8 @@ export default {
         })
         .catch((e: Error) => {
           console.log(e);
+          this.createAlertVisible = true;
+          this.createErrorMessage = e.response.data.message;
         });
     }
   }
@@ -77,7 +82,6 @@ export default {
             <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
           </div>
           <div class="col">
-            <div class="alert alert-danger" role="alert" :style="[inseeAlertVisible ? 'display:block' : 'display:none']">{{ inseeErrorMessage }}</div>
           </div>
         </div>
       </div>
@@ -133,6 +137,7 @@ export default {
 
       <button class="btn btn-primary" @click="insert">Ajouter à la base de données</button>
 
+      <div class="alert alert-danger" role="alert" :style="[createAlertVisible ? 'display:block' : 'display:none']">{{ createErrorMessage }}</div>
   </main>
 </template>
 
