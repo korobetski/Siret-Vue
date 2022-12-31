@@ -11,7 +11,9 @@ export default {
   },
   data() {
     return {
-      entreprise: EmptyEntreprise
+      entreprise: EmptyEntreprise,
+      inseeAlertVisible: false,
+      inseeErrorMessage: ""
     }
   },
   methods: {
@@ -22,10 +24,15 @@ export default {
       }
     },
     insee() {
+      this.inseeAlertVisible = false;
       EntrepriseService.getInsee(this.entreprise.siret)
         .then((response: ResponseData) => {
-
           console.log(response.data.datas);
+          if (response.data.statut == 2) {
+            this.inseeAlertVisible = true;
+            this.inseeErrorMessage = response.data.error;
+            return;
+          }
 
           this.entreprise.siren = response.data.datas.siren;
           this.entreprise.tva = response.data.datas.tva;
@@ -65,7 +72,16 @@ export default {
         <label for="siret" class="form-label">N° SIRET</label>
         <div id="siretHelp" class="form-text">Le n° SIRET est un numéro à 14 chiffres.</div>
       </div>
-      <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
+      <div class="container">
+        <div class="row align-items-start">
+          <div class="col">
+            <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
+          </div>
+          <div class="col">
+            <div class="alert alert-danger" role="alert" :style="[inseeAlertVisible ? 'display:block' : 'display:none']">{{ inseeErrorMessage }}</div>
+          </div>
+        </div>
+      </div>
 
       <hr/>
       
