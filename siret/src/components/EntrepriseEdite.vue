@@ -72,7 +72,7 @@ export default {
 <template>
   <main>
     <h2>Editer une entreprise</h2>
-    <form>
+
       <input id="id" type="number" hidden class="form-control form-control-sm" v-model.number="entreprise.id" readonly/>
       <div class="form-floating mb-3">        
         <input id="siret" class="form-control" aria-describedby="siretHelp" v-model.number="entreprise.siret" @keypress="validateNumber($event)"/>
@@ -126,8 +126,6 @@ export default {
       </div>
 
       <button class="btn btn-primary" @click="update">Mettre à jour la base de données</button>
-
-    </form>
   </main>
 </template>
 

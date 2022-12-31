@@ -15,7 +15,7 @@ const routes = [
     { path: '/edite/:id', component: Edite },
 ]
 const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(),
+    history: VueRouter.createWebHistory(),
     routes,
 })
 export default router

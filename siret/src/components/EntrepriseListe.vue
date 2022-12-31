@@ -10,12 +10,6 @@ export default {
   components: {
     EntrepriseItem
   },
-  props: {
-    entreprises: {
-      type: Object as PropType<Array<Entreprise>>,
-      required: true
-    },
-  },
   data() {
     return {
       entreprises: Array<Entreprise>,
@@ -23,6 +17,7 @@ export default {
   },
   methods: { 
     listeEntreprises() {
+      // TODO pour mise en prod : limiter le nombre d'éléments retournés et gérer la pagination 
       EntrepriseService.getAll()
         .then((response: ResponseData) => {
           this.entreprises = response.data.datas;
@@ -48,7 +43,7 @@ export default {
   <main>
     <div class="container">
       <div class="row align-items-start">
-        <EntrepriseItem class="col" v-for="entreprise in entreprises" v-bind="entreprise"></EntrepriseItem>
+        <EntrepriseItem v-for="entreprise in entreprises" v-bind="entreprise"></EntrepriseItem>
       </div>
     </div>
     

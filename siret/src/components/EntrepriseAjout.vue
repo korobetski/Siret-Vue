@@ -27,7 +27,7 @@ export default {
       this.inseeAlertVisible = false;
       EntrepriseService.getInsee(this.entreprise.siret)
         .then((response: ResponseData) => {
-          console.log(response.data.datas);
+          //console.log(response.data.datas);
           if (response.data.statut == 2) {
             this.inseeAlertVisible = true;
             this.inseeErrorMessage = response.data.error;
@@ -65,8 +65,7 @@ export default {
 
 <template>
   <main>
-    <h2>Ajouter une nouvelle entreprise</h2>
-    <form>
+    <h2>Ajouter une nouvelle entreprise</h2>   
       <div class="form-floating mb-3">        
         <input id="siret" class="form-control" aria-describedby="siretHelp" v-model.number="entreprise.siret" @keypress="validateNumber($event)"/>
         <label for="siret" class="form-label">N° SIRET</label>
@@ -134,7 +133,6 @@ export default {
 
       <button class="btn btn-primary" @click="insert">Ajouter à la base de données</button>
 
-    </form>
   </main>
 </template>
 
