@@ -82,6 +82,7 @@ export default {
             <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
           </div>
           <div class="col">
+            <div class="alert alert-danger" role="alert" :style="[inseeAlertVisible ? 'display:block' : 'display:none']">{{ inseeErrorMessage }}</div>
           </div>
         </div>
       </div>
