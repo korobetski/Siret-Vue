@@ -12,6 +12,10 @@ export default {
   data() {
     return {
       entreprise: EmptyEntreprise,
+      inseeAlertVisible: false,
+      inseeErrorMessage: "",
+      updateAlertVisible: false,
+      updateErrorMessage: ""
     }
   },
   methods: {
@@ -33,8 +37,12 @@ export default {
     insee() {
       EntrepriseService.getInsee(this.entreprise.siret)
         .then((response: ResponseData) => {
-
-          console.log(response.data.datas);
+          //console.log(response.data.datas);
+          if (response.data.statut != 200) {
+            this.inseeAlertVisible = true;
+            this.inseeErrorMessage = response.data.error;
+            return;
+          }
 
           this.entreprise.siren = response.data.datas.siren;
           this.entreprise.tva = response.data.datas.tva;
@@ -59,6 +67,8 @@ export default {
         })
         .catch((e: Error) => {
           console.log(e);
+          this.updateAlertVisible = true;
+          this.updateErrorMessage = e.response.data.message;
         });
     }
   },
@@ -79,7 +89,16 @@ export default {
         <label for="siret" class="form-label">N° SIRET</label>
         <div id="siretHelp" class="form-text">Le n° SIRET est un numéro à 14 chiffres.</div>
       </div>
-      <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
+      <div class="container">
+        <div class="row align-items-start">
+          <div class="col">
+            <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
+          </div>
+          <div class="col">
+            <div class="alert alert-danger" role="alert" :style="[inseeAlertVisible ? 'display:block' : 'display:none']">{{ inseeErrorMessage }}</div>
+          </div>
+        </div>
+      </div>
 
       <hr/>
       <div class="form-floating mb-3">
@@ -126,6 +145,8 @@ export default {
       </div>
 
       <button class="btn btn-primary" @click="update">Mettre à jour la base de données</button>
+
+      <div class="alert alert-danger" role="alert" :style="[updateAlertVisible ? 'display:block' : 'display:none']">{{ updateErrorMessage }}</div>
   </main>
 </template>
 

@@ -30,7 +30,7 @@ export default {
       EntrepriseService.getInsee(this.entreprise.siret)
         .then((response: ResponseData) => {
           //console.log(response.data.datas);
-          if (response.data.statut == 2) {
+          if (response.data.statut != 200) {
             this.inseeAlertVisible = true;
             this.inseeErrorMessage = response.data.error;
             return;
@@ -54,7 +54,14 @@ export default {
       this.createAlertVisible = false;
       EntrepriseService.create(this.entreprise)
         .then((response: ResponseData) => {
-          console.log(response.data.datas);
+          //console.log(response.data.datas);
+
+          if (response.data.statut != 200) {
+            this.createAlertVisible = true;
+            this.createErrorMessage = response.data.datas;
+            return;
+          }
+
           this.$router.push('/');
         })
         .catch((e: Error) => {

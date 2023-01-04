@@ -4,6 +4,14 @@ class EntrepriseService {
   getAll(): Promise<any> {
     return http.get("/entreprises");
   }
+  
+  /**
+   * Retourne la liste d'entreprises paginées
+   * @param  string  url  au format suivant "/entreprises?page=1"
+   */
+  getAllPagination(url: any): Promise<any> {
+    return http.get(`${url}`);
+  }
 
   get(id: any): Promise<any> {
     return http.get(`/entreprises/${id}`);
