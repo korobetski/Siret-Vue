@@ -20,7 +20,7 @@ export default {
     listeEntreprises(url: string) {
       EntrepriseService.getAllPagination(url)
         .then((response: ResponseData) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.entreprises = response.data.pagination.data;
           this.links = response.data.pagination.links;
           this.currentPage = response.data.current_page;

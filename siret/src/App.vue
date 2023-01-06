@@ -26,7 +26,7 @@ export default {
       EntrepriseService.getAll()
         .then((response: ResponseData) => {
           this.entreprises = response.data.datas;
-          console.log(this.entreprises);
+          //console.log(this.entreprises);
         })
         .catch((e: Error) => {
           console.log(e);

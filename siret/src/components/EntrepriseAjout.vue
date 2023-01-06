@@ -56,13 +56,13 @@ export default {
         .then((response: ResponseData) => {
           //console.log(response.data.datas);
 
-          if (response.data.statut != 200) {
+          if (response.data.statut != 201) {
             this.createAlertVisible = true;
             this.createErrorMessage = response.data.datas;
             return;
           }
 
-          this.$router.push('/');
+          this.$router.push('/'+response.data.datas.id);
         })
         .catch((e: Error) => {
           console.log(e);
