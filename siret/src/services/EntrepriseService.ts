@@ -25,6 +25,10 @@ class EntrepriseService {
     return http.post("/entreprises", data);
   }
 
+  createAuto(siret: any): Promise<any> {
+    return http.post(`/entreprises/${siret}`);
+  }
+
   update(id: any, data: any): Promise<any> {
     return http.put(`/entreprises/${id}`, data);
   }
