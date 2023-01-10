@@ -16,6 +16,8 @@ export default {
       currentPage: Number,
       searchQuery: "",
       searchLimit: 6,
+      canEdit: false,
+      canDelete: false,
     }
   },
   methods: { 
@@ -46,6 +48,7 @@ export default {
   },
   mounted() {
     this.listeEntreprises("/entreprises?page=1");
+    this.canEdit = this.canDelete = (localStorage.username) ? true : false;
   },
 }
 
@@ -82,7 +85,7 @@ export default {
     </div>
     <div class="container">
       <div class="row align-items-start">
-        <EntrepriseItem v-for="entreprise in entreprises" v-bind="entreprise"></EntrepriseItem>
+        <EntrepriseItem v-for="entreprise in entreprises" v-bind="entreprise" v-bind:can-edit="canEdit" v-bind:can-delete="canDelete"></EntrepriseItem>
       </div>
     </div>
     <br/>

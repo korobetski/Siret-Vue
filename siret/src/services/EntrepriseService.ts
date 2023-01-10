@@ -9,15 +9,15 @@ class EntrepriseService {
    * Retourne la liste d'entreprises paginées
    * @param  string  url  au format suivant "/entreprises?page=1"
    */
-  getAllPagination(url: any): Promise<any> {
+  getAllPagination(url: string): Promise<any> {
     return http.get(`${url}`);
   }
 
-  get(id: any): Promise<any> {
+  get(id: number): Promise<any> {
     return http.get(`/entreprises/${id}`);
   }
 
-  getInsee(siret: any): Promise<any> {
+  getInsee(siret: number): Promise<any> {
     return http.get(`/insee/${siret}`);
   }
 
@@ -25,15 +25,15 @@ class EntrepriseService {
     return http.post("/entreprises", data);
   }
 
-  createAuto(siret: any): Promise<any> {
+  createAuto(siret: number): Promise<any> {
     return http.post(`/entreprises/${siret}`);
   }
 
-  update(id: any, data: any): Promise<any> {
+  update(id: number, data: any): Promise<any> {
     return http.put(`/entreprises/${id}`, data);
   }
 
-  delete(id: any): Promise<any> {
+  delete(id: number): Promise<any> {
     return http.delete(`/entreprises/${id}`);
   }
 }

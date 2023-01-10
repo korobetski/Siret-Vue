@@ -14,7 +14,9 @@ export default defineComponent({
     libelleVoie:String,
     codePostal:Number,
     libelleCommune:String,
-    dateCreation:Date
+    dateCreation:Date,
+    canEdit:Boolean,
+    canDelete:Boolean
   },
   setup(props) {
     props.id,
@@ -39,7 +41,7 @@ export default defineComponent({
 
 <template>
   <div class="col">
-    <div :id="'entreprise-'+id" class="card">
+    <div :id="'entreprise-'+id" class="card mb-3">
       <div class="card-header">
         <h3 class="card-title">{{ nom }}</h3>
       </div>
@@ -52,9 +54,9 @@ export default defineComponent({
           <div>Date de création : {{ dateCreation }}</div>
         </div>
         <div class="btn-group" role="group" aria-label="controles">
-          <router-link class="btn btn-secondary" :to="'/'+id">Consulter</router-link>
-          <router-link class="btn btn-secondary" :to="'/edite/'+id">Editer</router-link>
-          <button class="btn btn-secondary" @click="supprimer(id)">Supprimer</button>
+          <router-link class="btn btn-secondary" :to="'/'+id">Voir</router-link>
+          <router-link v-if="canEdit" class="btn btn-secondary" :to="'/edite/'+id">Editer</router-link>
+          <button v-if="canDelete" class="btn btn-secondary" @click="supprimer(id)">Supprimer</button>
         </div>
       </div>
     </div>
@@ -62,6 +64,9 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.col {
+  min-width: 25%;
+}
 .card {
   color: black;
 }
