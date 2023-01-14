@@ -8,10 +8,11 @@ export default {
   },
   data() {
     return {
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
+      registerModal: false,
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
     }
   },
   methods: {
@@ -29,33 +30,53 @@ export default {
     }
   }
 }
-
 </script>
 
 <template>
-  <main>
-    <h2>Inscription</h2>  
-      <div class="form-floating mb-3">
-        <input type="text" id="name" class="form-control" v-model="name"/>
-        <label for="name" class="form-label">Nom</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" id="email" class="form-control" v-model="email"/>
-        <label for="email" class="form-label">Adresse email</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="password" id="password" class="form-control" v-model="password"/>
-        <label for="password" class="form-label">Mot de passe</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="password" id="password_confirmation" class="form-control" v-model="password_confirmation"/>
-        <label for="password_confirmation" class="form-label">Confirmation</label>
-      </div>
-      
-      <div class="form-floating mb-3">
-        <button class="btn btn-primary" @click="register">Valider</button>
-      </div>
-  </main>
+  <v-row justify="center">
+    <v-dialog v-model="registerModal">
+      <template v-slot:activator="{ props }">
+        <v-btn size="x-large" block v-bind="props">
+          Inscription
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">Inscription</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field v-model="name" label="Nom*" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="email" label="Email*" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="password" label="Mot de Passe*" type="password" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="password_confirmation" label="Confirmation du Mot de Passe*" type="password"
+                  required></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>* = Champ requis</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue-darken-1" variant="text" @click="registerModal = false">
+            Fermer
+          </v-btn>
+          <v-btn color="blue-darken-1" variant="text" @click="register">
+            Connexion
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <style scoped>
