@@ -13,16 +13,16 @@ Fonctionnalitées :
 
 Vue liste :
 
-<img src="https://github.com/korobetski/Siret-Vue/blob/main/listing.jpg"/>
+<img src="https://github.com/korobetski/Siret-Vue/blob/vuetify/listing.jpg"/>
 
 Vue consultation :
 
-<img src="https://github.com/korobetski/Siret-Vue/blob/main/show.jpg"/>
+<img src="https://github.com/korobetski/Siret-Vue/blob/vuetify/show.jpg"/>
 
 Vue ajout :
 
-<img src="https://github.com/korobetski/Siret-Vue/blob/main/ajout.jpg"/>
+<img src="https://github.com/korobetski/Siret-Vue/blob/vuetify/ajout.jpg"/>
 
 Vue édition :
 
-<img src="https://github.com/korobetski/Siret-Vue/blob/main/edit.jpg"/>
+<img src="https://github.com/korobetski/Siret-Vue/blob/vuetify/edit.jpg"/>
