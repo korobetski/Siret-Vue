@@ -1,17 +1,15 @@
 <script lang="ts">
 
 import type ResponseData from '@/types/ResponseData'
-import EntrepriseItem from './EntrepriseItem.vue'
 import EntrepriseService from '@/services/EntrepriseService'
-import { EmptyEntreprise } from '@/types/Entreprise'
+import Entreprise from '@/types/Entreprise'
 
 export default {
-  components: {
-    EntrepriseItem
+  props: {
+    entreprise:Object as () => Entreprise
   },
   data() {
     return {
-      entreprise: EmptyEntreprise,
       inseeAlertVisible: false,
       inseeErrorMessage: "",
       updateAlertVisible: false,
@@ -19,20 +17,18 @@ export default {
     }
   },
   methods: {
-    getEntreprise() {
-      EntrepriseService.get(this.$route.params.id)
+    update() {
+      EntrepriseService.update(this.entreprise.id, this.entreprise)
         .then((response: ResponseData) => {
-          this.entreprise = response.data.datas;
+          console.log(response.data.datas);
+          
+          location.reload();
         })
         .catch((e: Error) => {
           console.log(e);
+          this.updateAlertVisible = true;
+          this.updateErrorMessage = e.response.data.message;
         });
-    },
-    validateNumber: (event: { keyCode: any; preventDefault: () => void }) => {
-      let keyCode = event.keyCode;
-      if (keyCode < 48 || keyCode > 57) {
-        event.preventDefault();
-      }
     },
     insee() {
       EntrepriseService.getInsee(this.entreprise.siret)
@@ -58,98 +54,65 @@ export default {
           console.log(e);
         });
     },
-    update() {
-      EntrepriseService.update(this.entreprise.id, this.entreprise)
-        .then((response: ResponseData) => {
-          console.log(response.data.datas);
-          
-          this.$router.push('/'+this.entreprise.id);
-        })
-        .catch((e: Error) => {
-          console.log(e);
-          this.updateAlertVisible = true;
-          this.updateErrorMessage = e.response.data.message;
-        });
+    close() {
+      this.$parent.editModal = false;
     }
   },
-  mounted() {
-    this.getEntreprise();
-  },
 }
-
 </script>
 
 <template>
-  <main>
-    <h2>Editer une entreprise</h2>
-
-      <input id="id" type="number" hidden class="form-control form-control-sm" v-model.number="entreprise.id" readonly/>
-      <div class="form-floating mb-3">        
-        <input id="siret" class="form-control" aria-describedby="siretHelp" v-model.number="entreprise.siret" @keypress="validateNumber($event)"/>
-        <label for="siret" class="form-label">N° SIRET</label>
-        <div id="siretHelp" class="form-text">Le n° SIRET est un numéro à 14 chiffres.</div>
-      </div>
-      <div class="container">
-        <div class="row align-items-start">
-          <div class="col">
-            <button class="btn btn-primary" @click="insee">Charger les informations depuis l'INSEE</button>
-          </div>
-          <div class="col">
-            <div class="alert alert-danger" role="alert" :style="[inseeAlertVisible ? 'display:block' : 'display:none']">{{ inseeErrorMessage }}</div>
-          </div>
-        </div>
-      </div>
-
-      <hr/>
-      <div class="form-floating mb-3">
-        <input id="siren" class="form-control form-control-sm" v-model.number="entreprise.siren"/>
-        <label for="siren" class="form-label">N° SIREN</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input id="tva" class="form-control form-control-sm" v-model="entreprise.tva"/>
-        <label for="tva" class="form-label">N° TVA</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input id="nom" class="form-control form-control-sm" v-model="entreprise.nom"/>
-        <label for="nom" class="form-label">Nom</label>
-      </div>
-
-      <div class="mb-3">        
-        <label class="form-label">Adresse</label>
-      </div>
-      <div class="input-group mb-3">
-        <div class="form-floating mb-3">
-          <input type="number" id="numeroVoie" class="form-control form-control-sm" placeholder="N° de voie" aria-label="N° de voie" v-model.number="entreprise.numeroVoie"/>
-          <label for="numeroVoie" class="form-label">N° de voie</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" id="typeVoie" class="form-control form-control-sm" placeholder="Type de voie" aria-label="Type de voie" v-model="entreprise.typeVoie"/>
-          <label for="typeVoie" class="form-label">Type de voie</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" id="libelleVoie" class="form-control form-control-sm" placeholder="Libellé de voie" aria-label="Libellé de voie" v-model="entreprise.libelleVoie"/>
-          <label for="libelleVoie" class="form-label">Libellé de voie</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="number" id="codePostal" class="form-control form-control-sm" placeholder="Code postal" aria-label="Code postal" v-model.number="entreprise.codePostal"/>
-          <label for="codePostal" class="form-label">Code postal</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input type="text" id="libelleCommune" class="form-control form-control-sm" placeholder="Commune" aria-label="Commune" v-model="entreprise.libelleCommune"/>
-          <label for="libelleCommune" class="form-label">Commune</label>
-        </div>
-      </div>
-      <div class="form-floating mb-3">        
-        <input id="dateCreation" class="form-control form-control-sm" v-model="entreprise.dateCreation"/>
-        <label for="dateCreation" class="form-label">Date de création</label>
-      </div>
-
-      <button class="btn btn-primary" @click="update">Mettre à jour la base de données</button>
-
-      <div class="alert alert-danger" role="alert" :style="[updateAlertVisible ? 'display:block' : 'display:none']">{{ updateErrorMessage }}</div>
-  </main>
+  <!--EntrepriseEdite Modal-->
+  <v-row justify="center">
+    <v-dialog v-model="$parent.editModal">
+      <v-card class="pa-md-4 mx-lg-auto" max-width="900px" min-width="600px">
+        <v-card-title>
+          <span class="text-h5">Edition | {{ entreprise.nom }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-text-field label="n° Siret" v-model.number="entreprise.siret" prepend-icon="mdi-lock" variant="underlined" :readonly=true></v-text-field>
+          <v-text-field label="n° Siren" v-model.number="entreprise.siren" prepend-icon="mdi-lock" variant="underlined" :readonly=true></v-text-field>
+          <v-text-field label="n° TVA" v-model="entreprise.tva" prepend-icon="mdi-lock" variant="underlined" :readonly=true></v-text-field>
+          
+          <v-row class="formRow">
+            <v-col cols="12"><v-btn block color="teal" variant="flat" @click="insee">
+            Recharger les informations INSEE
+          </v-btn></v-col>
+          </v-row>
+          <v-row class="formRow">
+            <v-col cols="12"><v-text-field label="Nom" v-model="entreprise.nom" required></v-text-field></v-col>
+          </v-row>
+          <v-row class="formRow">
+            <v-col cols="6"><v-text-field type="number" label="n° de voie" v-model.number="entreprise.numeroVoie"></v-text-field></v-col>
+            <v-col cols="6"><v-text-field label="Type de voie" v-model="entreprise.typeVoie"></v-text-field></v-col>
+          </v-row>
+          <v-row class="formRow">
+            <v-col cols="12"><v-text-field label="Libelle de voie" v-model="entreprise.libelleVoie" required></v-text-field></v-col>
+          </v-row>
+          <v-row class="formRow">
+            <v-col cols="3"><v-text-field type="number" label="Code postal" v-model.number="entreprise.codePostal" required></v-text-field></v-col>
+            <v-col cols="9"><v-text-field label="Commune" v-model="entreprise.libelleCommune" required></v-text-field></v-col>
+          </v-row>
+          <v-row class="formRow">
+            <v-col cols="12"><v-text-field label="Date de création" v-model="entreprise.dateCreation" required></v-text-field></v-col>
+          </v-row>          
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue-darken-1" variant="text" @click="close">
+            Fermer
+          </v-btn>
+          <v-btn color="blue-darken-1" variant="text" @click="update" :disabled=saveDisabled>
+            Mettre à jour
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <style scoped>
-
+.formRow {
+  height: 80px;
+}
 </style>

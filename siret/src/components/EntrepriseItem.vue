@@ -1,73 +1,55 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
-import EntrepriseService from '@/services/EntrepriseService'
-import type ResponseData from '@/types/ResponseData'
-export default defineComponent({
+import Entreprise from '@/types/Entreprise'
+export default {
   props: {
-    id:Number,
-    siret:Number,
-    siren:Number,
-    tva:String,
-    nom:String,
-    numeroVoie:Number,
-    typeVoie:String,
-    libelleVoie:String,
-    codePostal:Number,
-    libelleCommune:String,
-    dateCreation:Date,
-    canEdit:Boolean,
-    canDelete:Boolean
+    entreprise: Object as () => Entreprise,
+    canEdit: Boolean,
+    canDelete: Boolean
   },
-  setup(props) {
-    props.id,
-    props.siret
-  },
-  methods: {
-    supprimer(id:number | undefined) {
-      EntrepriseService.delete(id)
-        .then((response: ResponseData) => {
-          console.log(response.data.datas);
-          // après la suppression on retourne à l'index et on actualise la vue
-          this.$router.push('/').then(() => { this.$router.go(0) });
-        })
-        .catch((e: Error) => {
-          console.log(e);
-        });
-    }
-  }
-})
+  data: () => ({
+    expand: false,
+    time: 0,
+  }),
+}
 </script>
 
 
 <template>
-  <div class="col">
-    <div :id="'entreprise-'+id" class="card mb-3">
-      <div class="card-header">
-        <h3 class="card-title">{{ nom }}</h3>
-      </div>
-      <div class="card-body">
-        <div class="card-text">
-          <div>N° SIRET : {{ siret }}</div>
-          <div>N° SIREN : {{ siren }}</div>
-          <div>N° TVA : {{ tva }}</div>
-          <div>Adresse : {{ numeroVoie }} {{ typeVoie }} {{ libelleVoie }} {{ codePostal }} {{ libelleCommune }}</div>
-          <div>Date de création : {{ dateCreation }}</div>
-        </div>
-        <div class="btn-group" role="group" aria-label="controles">
-          <router-link class="btn btn-secondary" :to="'/'+id">Voir</router-link>
-          <router-link v-if="canEdit" class="btn btn-secondary" :to="'/edite/'+id">Editer</router-link>
-          <button v-if="canDelete" class="btn btn-secondary" @click="supprimer(id)">Supprimer</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--EntrepriseItem Modal-->
+  <v-row justify="center">
+    <v-dialog v-model="$parent.showModal">
+      <v-card class="mx-auto" width="500">
+        <v-img height="140" :src="'https://picsum.photos/seed/' + entreprise.nom + '/1000/280?grayscale'" cover
+          class="align-end">
+          <v-card-title class="text-white pl-10" v-text="entreprise.nom"></v-card-title>
+        </v-img>
+        <v-card-subtitle class="pl-10 py-2">
+          <div>{{ entreprise.numeroVoie }} {{ entreprise.typeVoie }} {{ entreprise.libelleVoie }}</div>
+          <div>{{ entreprise.codePostal }} {{ entreprise.libelleCommune }}</div>
+        </v-card-subtitle>
+        <v-divider></v-divider>
+        <v-card-text class="py-0">
+          <v-list lines="one">
+            <v-list-item key="n° Siret" title="n° Siret" :subtitle="entreprise.siret"></v-list-item>
+            <v-list-item key="n° Siren" title="n° Siren" :subtitle="entreprise.siren"></v-list-item>
+            <v-list-item key="n° TVA" title="n° TVA" :subtitle="entreprise.tva"></v-list-item>
+            <v-list-item key="Date de création" title="Date de création"
+              :subtitle="entreprise.dateCreation"></v-list-item>
+          </v-list>
+        </v-card-text>
+
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn v-if="canEdit" @click="$parent.editItem(entreprise)" prepend-icon="mdi-pencil" color="warning">
+            Éditer
+          </v-btn>
+          <v-btn v-if="canDelete" @click="$parent.deleteItem(entreprise)" prepend-icon="mdi-delete" color="error">
+            Supprimer
+          </v-btn>
+        </v-card-actions>
+      </v-card></v-dialog></v-row>
 </template>
 
 <style scoped>
-.col {
-  min-width: 25%;
-}
-.card {
-  color: black;
-}
+
 </style>

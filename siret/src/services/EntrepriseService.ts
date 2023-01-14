@@ -13,6 +13,10 @@ class EntrepriseService {
     return http.get(`${url}`);
   }
 
+  getPage(page: number = 1, limit:number = 6, query:string = ""): Promise<any> {
+    return http.get(`/entreprises?page=${page}&limit=${limit}&query=${query}`);
+  }
+
   get(id: number): Promise<any> {
     return http.get(`/entreprises/${id}`);
   }
